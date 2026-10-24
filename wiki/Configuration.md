@@ -121,7 +121,7 @@ Adds lessons WebUntis does not know about, e.g. music school or tutoring. Each e
 | `subjectShort` | no | Short name (defaults to `subject`) |
 | `teacher`, `room`, `text` | no | Shown like the WebUntis fields |
 | `from` / `until` | no | Limit a recurring lesson to a date range (`'YYYY-MM-DD'`) |
-| `showInHolidays` | no | Default `false`: skipped on school holidays (holidays are only known when the `grid` widget is enabled) |
+| `showInHolidays` | no | Default `false`: skipped on school holidays (holidays are only known when the `grid` or `lessons` widget is enabled) |
 
 ```javascript
 addLessons: [

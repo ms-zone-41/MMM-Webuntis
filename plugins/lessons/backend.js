@@ -11,6 +11,7 @@ const DEFAULT_CONFIG = Object.freeze({
   previewFrom: "", // Earliest time ("HH:MM") for that rollover on a school day; empty = right away.
   dateFormat: "EEE", // Date label format per day.
   hideWeekends: false, // Skip weekend rows when possible.
+  hideHolidays: false, // Hide rows of empty holiday days; they still count toward nextDays.
   showStartTime: false, // Show clock time instead of period labels.
   showRegular: false, // Include regular lessons (not only irregular).
   useShortSubject: false, // Prefer short subject names.
@@ -46,9 +47,14 @@ module.exports = {
         });
         validateNonNegativeField(issues, "lessons", "lessons", pluginConfig, "pastDays");
 
-        const { previewNext, previewFrom } = pluginConfig || {};
+        const { previewNext, previewFrom, hideHolidays } = pluginConfig || {};
         if (previewNext !== undefined && previewNext !== null && typeof previewNext !== "boolean") {
           issues.push(createConfigIssue("lessons", `lessons.previewNext must be true or false. Value: ${previewNext}`));
+        }
+        if (hideHolidays !== undefined && hideHolidays !== null && typeof hideHolidays !== "boolean") {
+          issues.push(
+            createConfigIssue("lessons", `lessons.hideHolidays must be true or false. Value: ${hideHolidays}`),
+          );
         }
         if (previewFrom !== undefined && previewFrom !== null && previewFrom !== "" && !isClockTime(previewFrom)) {
           issues.push(

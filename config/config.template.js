@@ -98,6 +98,7 @@ const config = {
               previewFrom: "", // earliest time for that on a school day, e.g. '14:00'; empty = right away
               dateFormat: "EEEE",
               hideWeekends: false,
+              hideHolidays: false, // hide rows of empty holiday days; they still count toward nextDays
               showStartTime: false,
               showRegular: false,
               useShortSubject: false,

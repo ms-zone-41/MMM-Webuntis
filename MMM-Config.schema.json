@@ -425,6 +425,10 @@
                           "type": "boolean",
                           "description": "Hide weekend rows/columns where supported."
                         },
+                        "hideHolidays": {
+                          "type": "boolean",
+                          "description": "Hide holiday rows unless that day has lessons."
+                        },
                         "showStartTime": {
                           "type": "boolean",
                           "description": "Show lesson start time instead of period label."
@@ -963,6 +967,11 @@
                   "description": "Hide weekend rows/columns where supported."
                 },
                 {
+                  "key": "MMM-Webuntis.config.plugins.lessons.config.hideHolidays",
+                  "title": "hideHolidays",
+                  "description": "Hide holiday rows unless that day has lessons."
+                },
+                {
                   "key": "MMM-Webuntis.config.plugins.lessons.config.showStartTime",
                   "title": "showStartTime",
                   "description": "Show lesson start time instead of period label."
@@ -1281,6 +1290,7 @@
             "previewFrom": "",
             "dateFormat": "EEE",
             "hideWeekends": false,
+            "hideHolidays": false,
             "showStartTime": false,
             "showRegular": false,
             "useShortSubject": false,

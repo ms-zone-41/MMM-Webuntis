@@ -443,6 +443,8 @@
       startDate: previewDate || today,
     });
 
+    const hideHolidays = Boolean(getLessonsConfig("hideHolidays"));
+    let renderFirstHiddenHoliday = null;
     let addedRows = 0;
     for (const dayDate of displayDates) {
       const dateYmd = getDayYmd(dayDate);
@@ -453,7 +455,13 @@
         renderEmptyDayRow(container, studentLabelText, dayDate, options.dateFormat, dayState, previewClass);
 
       if (entries.length === 0) {
-        addedRows += renderDayNotice(getEmptyDayState(ctx, effectiveStudentTitle, dayDate));
+        const dayState = getEmptyDayState(ctx, effectiveStudentTitle, dayDate);
+        // hideHolidays: an empty holiday day keeps its place in the window, but gets no row of its own.
+        if (hideHolidays && dayState?.type === "holiday") {
+          if (!renderFirstHiddenHoliday) renderFirstHiddenHoliday = () => renderDayNotice(dayState);
+          continue;
+        }
+        addedRows += renderDayNotice(dayState);
         continue;
       }
 
@@ -478,6 +486,9 @@
       }
       addedRows += dayRows;
     }
+
+    // Nothing but empty holiday days: the first of them stands for the break, instead of "nothing".
+    if (addedRows === 0 && renderFirstHiddenHoliday) return renderFirstHiddenHoliday();
 
     if (addedRows === 0) {
       log("debug", `[lessons] no entries to display`);

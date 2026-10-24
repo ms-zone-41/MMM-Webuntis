@@ -39,6 +39,7 @@ The old top-level namespace `lessons: { ... }` is still accepted for compatibili
 | `previewFrom` | `"HH:MM"` or `""` | `""` | Earliest time for that rollover on a school day; empty means right after the last entry of the day |
 | `dateFormat` | string | `EEE` | Date label format for each lesson day |
 | `hideWeekends` | boolean | `false` | Hides weekend rows unless that weekend day actually contains lessons |
+| `hideHolidays` | boolean | `false` | Hides holiday rows unless that holiday actually contains lessons |
 | `showStartTime` | boolean | `false` | Shows clock times like `08:15` instead of period labels |
 | `showRegular` | boolean | `false` | Also shows normal, unchanged lessons instead of mostly focusing on irregular ones |
 | `useShortSubject` | boolean | `false` | Uses the short subject label when both short and long names exist |
@@ -53,6 +54,7 @@ The old top-level namespace `lessons: { ... }` is still accepted for compatibili
 - Past lessons are hidden in normal operation. If `logLevel` is `debug`, past entries stay visible for troubleshooting.
 - If `showStartTime` is `false`, the plugin uses timetable period labels when the backend provides time-unit data.
 - `hideWeekends` only removes empty weekend days. Weekend days with lessons still appear.
+- `hideHolidays` hides the rows of holiday days without lessons (the holidays WebUntis lists: school breaks and public holidays). Unlike `hideWeekends` it does not move the window: holiday days still count toward `nextDays` and `pastDays`, so the list does not jump past a break. If the window holds nothing but empty holiday days, one row for the first of them is shown instead of "nothing". Days off that WebUntis does not list as holidays (e.g. a bridge day) still appear.
 - `previewNext` replaces today with the next school day once today has nothing left to show: every entry the list would show has started, or today is a weekend or holiday day. The next school day skips weekends and holidays (up to three weeks ahead, longer breaks get no preview); `nextDays` then counts from that day, `pastDays` still from today. The header says "preview", preview rows carry the CSS class `lesson-preview`, and a preview day without changes shows "no changes". With `showRegular: false` a school day without any change rolls over right away in the morning; set `previewFrom` (e.g. `'14:00'`) to keep today until then. `previewFrom` does not apply on weekends and holidays.
 - Lessons can be hidden with `excludeLessons` (this also hides homework and exams of the same subject) and own lessons added with `addLessons`, see [Hiding and Adding Lessons](Configuration#hiding-and-adding-lessons).
 
@@ -67,6 +69,7 @@ plugins: {
       pastDays: 1,
       dateFormat: 'EEEE dd.MM.',
       hideWeekends: true,
+      hideHolidays: true,
       previewNext: true,
       previewFrom: '13:00',
       showStartTime: true,
